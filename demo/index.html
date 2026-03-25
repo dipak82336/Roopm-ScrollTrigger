@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROOPM·ScrollTrigger — v2.0 Demo</title>
+
+  <!-- Premium fonts: Cormorant (luxury serif display) + Syne (geometric UI) + JetBrains Mono (labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       CUSTOM CURSOR
+  ═════════════════════════════════════════════════════════════════════ -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       NAV
+  ═════════════════════════════════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">ROOPM<span>·</span>ST</div>
+    <div class="nav-links">
+      <a href="#section-basic">01</a>
+      <a href="#section-scrub">02</a>
+      <a href="#section-pin">03</a>
+      <a href="#section-horizontal">04</a>
+    </div>
+    <div class="nav-version">v2.0</div>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SECTION 0 — HERO
+       Feature: Immediate CSS entrance, onEnter marker demo
+  ═════════════════════════════════════════════════════════════════════ -->
+  <section class="section hero" id="hero">
+    <!-- Decorative grid lines -->
+    <div class="hero-grid" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow js-animate" data-delay="100">
+        <span class="eyebrow-tag">ENTERPRISE SCROLL ENGINE</span>
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-ver">v2.0</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-row js-animate" data-delay="300">
+          <span class="title-word">Scroll</span>
+        </span>
+        <span class="title-row js-animate" data-delay="450">
+          <span class="title-word italic">Perfected.</span>
+        </span>
+      </h1>
+
+      <p class="hero-desc js-animate" data-delay="650">
+        Enterprise-grade scroll animation engine.<br />
+        Pure Vanilla JS. Zero dependencies.
+      </p>
+
+      <div class="hero-features js-animate" data-delay="850">
+        <div class="feat-pill">IntersectionObserver</div>
+        <div class="feat-pill">Lerp Physics</div>
+        <div class="feat-pill">Pin + Spacer</div>
+        <div class="feat-pill">Velocity Tracking</div>
+        <div class="feat-pill">Debug Markers</div>
+      </div>
+
+      <div class="scroll-cue js-animate" data-delay="1100">
+        <div class="scroll-line"></div>
+        <span>Scroll to explore</span>
+      </div>
+    </div>
+
+    <!-- Hero stats panel -->
+    <aside class="hero-stats" aria-label="Technical specs">
+      <div class="stat">
+        <span class="stat-num">60</span>
+        <span class="stat-label">FPS Target</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Dependencies</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="instanceCount">0</span>
+        <span class="stat-label">Active Triggers</span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SECTION 1 — BASIC TRIGGER
+       Feature: onEnter / onLeave / onEnterBack / onLeaveBack
+       Markers: ENABLED (first card)
+  ═════════════════════════════════════════════════════════════════════ -->
+  <section class="section section--basic" id="section-basic">
+    <div class="section-label" aria-hidden="true">
+      <span class="label-num">01</span>
+      <span class="label-text">Basic Trigger</span>
+    </div>
+
+    <div class="basic-header">
+      <h2 class="section-title js-basic-heading">
+        Event-based<br /><em>Callbacks</em>
+      </h2>
+      <p class="section-sub js-basic-sub">
+        Fade + translate animations fire precisely as each card enters
+        the defined viewport threshold. <strong>scrub: false</strong> — pure event mode.
+      </p>
+    </div>
+
+    <div class="basic-grid" id="basicGrid">
+      <article class="card js-card" data-delay="0">
+        <div class="card-icon">◈</div>
+        <h3 class="card-title">onEnter</h3>
+        <p class="card-body">Fires as element enters the start boundary scrolling downward.</p>
+        <div class="card-tag">trigger</div>
+      </article>
+      <article class="card js-card" data-delay="120">
+        <div class="card-icon">◉</div>
+        <h3 class="card-title">onLeave</h3>
+        <p class="card-body">Fires when element exits the end boundary going down the page.</p>
+        <div class="card-tag">trigger</div>
+      </article>
+      <article class="card js-card" data-delay="240">
+        <div class="card-icon">◎</div>
+        <h3 class="card-title">onEnterBack</h3>
+        <p class="card-body">Re-fires when scrolling back up and re-entering the range.</p>
+        <div class="card-tag">trigger</div>
+      </article>
+      <article class="card js-card" data-delay="360">
+        <div class="card-icon">◍</div>
+        <h3 class="card-title">onLeaveBack</h3>
+        <p class="card-body">Complete bidirectional awareness. Resets state on exit back.</p>
+        <div class="card-tag">trigger</div>
+      </article>
+    </div>
+
+    <!-- Live debug readout -->
+    <div class="debug-readout" id="basicDebug">
+      <span class="dbg-label">LAST EVENT</span>
+      <span class="dbg-value" id="basicEvent">—</span>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SECTION 2 — LERP SCRUB + VELOCITY SKEW
+       Feature: scrub: 1.5 (Lerp inertia), velocity, direction, onUpdate
+       Markers: ENABLED
+  ═════════════════════════════════════════════════════════════════════ -->
+  <section class="section section--scrub" id="section-scrub">
+    <div class="section-label" aria-hidden="true">
+      <span class="label-num">02</span>
+      <span class="label-text">Inertia Scrub + Velocity</span>
+    </div>
+
+    <!-- Left: visual parallax zone -->
+    <div class="scrub-visual" id="scrubVisual">
+      <div class="scrub-img js-scrub-img">
+        <div class="scrub-img-bg"></div>
+        <div class="scrub-img-grain"></div>
+        <!-- Large typographic display -->
+        <div class="scrub-large-text js-scrub-bigtext">00</div>
+      </div>
+      <!-- Overlay vignette -->
+      <div class="scrub-vignette"></div>
+      <!-- Floating data widgets -->
+      <div class="scrub-data-chip" id="progressChip">
+        <span class="chip-label">PROGRESS</span>
+        <span class="chip-val" id="chipProg">0.000</span>
+      </div>
+      <div class="scrub-data-chip" id="dirChip">
+        <span class="chip-label">DIRECTION</span>
+        <span class="chip-val" id="chipDir">+1</span>
+      </div>
+    </div>
+
+    <!-- Right: text + readouts -->
+    <div class="scrub-text">
+      <h2 class="scrub-title">
+        Physics-based<br /><em>Inertia</em>
+      </h2>
+      <p class="scrub-desc">
+        <code>scrub: 1.5</code> — the animation smoothly
+        catches up to the scrollbar using exponential-decay
+        lerp. Watch the lag and notice the velocity-driven
+        skew on the image as you scroll fast vs. slow.
+      </p>
+
+      <!-- Progress meter -->
+      <div class="meter-block">
+        <div class="meter-header">
+          <span class="meter-label">SCRUB PROGRESS</span>
+          <span class="meter-pct" id="scrubPct">0%</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill" id="scrubFill"></div>
+        </div>
+      </div>
+
+      <!-- Velocity meter -->
+      <div class="meter-block">
+        <div class="meter-header">
+          <span class="meter-label">SCROLL VELOCITY</span>
+          <span class="meter-pct" id="velVal" style="color:var(--accent)">0.00 px/f</span>
+        </div>
+        <div class="meter-track">
+          <div class="meter-fill vel-fill" id="velFill" style="background:var(--accent)"></div>
+        </div>
+      </div>
+
+      <!-- Scrub config display -->
+      <div class="config-block">
+        <div class="config-row"><span>trigger</span><code>.section--scrub</code></div>
+        <div class="config-row"><span>start</span><code>"top bottom"</code></div>
+        <div class="config-row"><span>end</span><code>"bottom top"</code></div>
+        <div class="config-row"><span>scrub</span><code>1.5</code></div>
+        <div class="config-row"><span>markers</span><code>true</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SECTION 3 — ADVANCED PINNING
+       Feature: pin: true, pinSpacing: true, scrub: 1, 3 sequential panels
+  ═════════════════════════════════════════════════════════════════════ -->
+  <section class="section section--pin" id="section-pin">
+    <div class="section-label" aria-hidden="true">
+      <span class="label-num">03</span>
+      <span class="label-text">Advanced Pinning</span>
+    </div>
+
+    <!-- This wrapper gets PINNED by the library -->
+    <div class="pin-wrapper js-pin-wrapper">
+
+      <!-- Panel 1 -->
+      <div class="pin-panel js-pin-panel" data-panel="0">
+        <div class="pin-panel-inner">
+          <div class="panel-number">01</div>
+          <h2 class="panel-title">The Pin<br /><em>Engages</em></h2>
+          <p class="panel-body">
+            Scroll down. This container freezes in place as the rest of the page
+            continues to scroll below it — powered by <code>pinSpacing: true</code>.
+          </p>
+          <div class="panel-hint">↓ Keep scrolling</div>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="pin-panel js-pin-panel" data-panel="1">
+        <div class="pin-panel-inner">
+          <div class="panel-number">02</div>
+          <h2 class="panel-title">Mid-Journey<br /><em>Revealed</em></h2>
+          <p class="panel-body">
+            The spacer div maintains the document height so content below flows
+            naturally — no jump. The pinned element stays fixed while you scroll
+            through the allocated duration.
+          </p>
+          <div class="panel-hint">↓ One more step</div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="pin-panel js-pin-panel" data-panel="2">
+        <div class="pin-panel-inner">
+          <div class="panel-number">03</div>
+          <h2 class="panel-title">Pin<br /><em>Releases</em></h2>
+          <p class="panel-body">
+            After this point the pin disengages and normal scroll resumes.
+            The element transitions to <code>position:absolute; bottom:0</code>
+            inside its spacer — perfectly aligned.
+          </p>
+          <div class="panel-hint">↓ Continue</div>
+        </div>
+      </div>
+
+      <!-- Progress UI (stays visible during pin) -->
+      <div class="pin-ui">
+        <div class="pin-progress-track">
+          <div class="pin-progress-fill js-pin-fill"></div>
+        </div>
+        <div class="pin-steps">
+          <span class="pin-step-dot js-pin-dot" data-i="0"></span>
+          <span class="pin-step-dot js-pin-dot" data-i="1"></span>
+          <span class="pin-step-dot js-pin-dot" data-i="2"></span>
+        </div>
+        <div class="pin-percent js-pin-pct">0%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SECTION 4 — HORIZONTAL SCROLL
+       Feature: Horizontal track driven by vertical scrub
+  ═════════════════════════════════════════════════════════════════════ -->
+  <section class="section section--horizontal" id="section-horizontal">
+    <div class="section-label" aria-hidden="true">
+      <span class="label-num">04</span>
+      <span class="label-text">Horizontal Scroll</span>
+    </div>
+
+    <!-- This wrapper gets pinned; the track inside slides left -->
+    <div class="h-wrapper js-h-wrapper">
+      <div class="h-track js-h-track">
+
+        <div class="h-slide h-slide--1">
+          <div class="h-slide-inner">
+            <div class="h-num">01</div>
+            <h2 class="h-title">Horizontal</h2>
+            <p class="h-body">Vertical scroll drives horizontal motion.</p>
+          </div>
+          <div class="h-slide-bg">H</div>
+        </div>
+
+        <div class="h-slide h-slide--2">
+          <div class="h-slide-inner">
+            <div class="h-num">02</div>
+            <h2 class="h-title">Seamless</h2>
+            <p class="h-body">Lerp-interpolated, buttery smooth.</p>
+          </div>
+          <div class="h-slide-bg">S</div>
+        </div>
+
+        <div class="h-slide h-slide--3">
+          <div class="h-slide-inner">
+            <div class="h-num">03</div>
+            <h2 class="h-title">Physics</h2>
+            <p class="h-body">Inertia makes it feel premium and deliberate.</p>
+          </div>
+          <div class="h-slide-bg">P</div>
+        </div>
+
+        <div class="h-slide h-slide--4">
+          <div class="h-slide-inner">
+            <div class="h-num">04</div>
+            <h2 class="h-title">Precise</h2>
+            <p class="h-body">Zero external dependencies. Pure calculation.</p>
+          </div>
+          <div class="h-slide-bg">P</div>
+        </div>
+
+      </div><!-- /h-track -->
+
+      <!-- Horizontal progress bar -->
+      <div class="h-progress-outer">
+        <div class="h-progress-fill js-h-fill"></div>
+      </div>
+      <div class="h-slide-counter">
+        <span id="hCurrent">01</span>
+        <span class="h-sep">／</span>
+        <span>04</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       FOOTER
+  ═════════════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">ROOPM<em>·</em>ST</div>
+        <p>Enterprise Scroll Animation Engine — v2.0</p>
+      </div>
+      <div class="footer-tech">
+        <div class="tech-grid">
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>requestAnimationFrame</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>IntersectionObserver</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>ResizeObserver</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>Lerp / Exponential Decay</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>Pin + PinSpacing FSM</span>
+          </div>
+          <div class="tech-item">
+            <span class="tech-icon">⬡</span>
+            <span>Velocity Tracking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Pure Vanilla JS · Zero Dependencies · ES6+</span>
+    </div>
+  </footer>
+
+  <!-- Library must load before app.js -->
+  <script src="../src/roopm-scrolltrigger.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
